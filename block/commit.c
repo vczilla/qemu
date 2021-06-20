@@ -312,6 +312,7 @@ void commit_start(const char *job_id, BlockDriverState *bs,
     commit_top_bs->total_sectors = top->total_sectors;
 
     ret = bdrv_append(commit_top_bs, top, errp);
+    bdrv_unref(commit_top_bs); /* referenced by new parents or failed */
     if (ret < 0) {
         commit_top_bs = NULL;
         goto fail;
@@ -452,7 +453,7 @@ int bdrv_commit(BlockDriverState *bs)
         return -EBUSY;
     }
 
-    ro = backing_file_bs->read_only;
+    ro = bdrv_is_read_only(backing_file_bs);
 
     if (ro) {
         if (bdrv_reopen_set_read_only(backing_file_bs, false, NULL)) {

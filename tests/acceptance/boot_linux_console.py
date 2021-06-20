@@ -333,6 +333,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:aarch64
         :avocado: tags=machine:virt
+        :avocado: tags=accel:tcg
         """
         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
                       '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
@@ -343,7 +344,9 @@ class BootLinuxConsole(LinuxKernelTest):
         self.vm.set_console()
         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
                                'console=ttyAMA0')
+        self.require_accelerator("tcg")
         self.vm.add_args('-cpu', 'cortex-a53',
+                         '-accel', 'tcg',
                          '-kernel', kernel_path,
                          '-append', kernel_command_line)
         self.vm.launch()
@@ -356,6 +359,7 @@ class BootLinuxConsole(LinuxKernelTest):
         :avocado: tags=machine:xlnx-versal-virt
         :avocado: tags=device:pl011
         :avocado: tags=device:arm_gicv3
+        :avocado: tags=accel:tcg
         """
         images_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
                       'bionic-updates/main/installer-arm64/'
@@ -370,6 +374,7 @@ class BootLinuxConsole(LinuxKernelTest):
 
         self.vm.set_console()
         self.vm.add_args('-m', '2G',
+                         '-accel', 'tcg',
                          '-kernel', kernel_path,
                          '-initrd', initrd_path)
         self.vm.launch()
@@ -379,6 +384,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:arm
         :avocado: tags=machine:virt
+        :avocado: tags=accel:tcg
         """
         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
                       '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
@@ -401,6 +407,7 @@ class BootLinuxConsole(LinuxKernelTest):
         :avocado: tags=machine:emcraft-sf2
         :avocado: tags=endian:little
         :avocado: tags=u-boot
+        :avocado: tags=accel:tcg
         """
         uboot_url = ('https://raw.githubusercontent.com/'
                      'Subbaraya-Sundeep/qemu-test-binaries/'
@@ -429,6 +436,8 @@ class BootLinuxConsole(LinuxKernelTest):
 
     def do_test_arm_raspi2(self, uart_id):
         """
+        :avocado: tags=accel:tcg
+
         The kernel can be rebuilt using the kernel source referenced
         and following the instructions on the on:
         https://www.raspberrypi.org/documentation/linux/kernel/building.md
@@ -464,6 +473,7 @@ class BootLinuxConsole(LinuxKernelTest):
         :avocado: tags=arch:arm
         :avocado: tags=machine:raspi2
         :avocado: tags=device:pl011
+        :avocado: tags=accel:tcg
         """
         self.do_test_arm_raspi2(0)
 
@@ -471,6 +481,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:arm
         :avocado: tags=machine:smdkc210
+        :avocado: tags=accel:tcg
         """
         deb_url = ('https://snapshot.debian.org/archive/debian/'
                    '20190928T224601Z/pool/main/l/linux/'
@@ -511,6 +522,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:arm
         :avocado: tags=machine:cubieboard
+        :avocado: tags=accel:tcg
         """
         deb_url = ('https://apt.armbian.com/pool/main/l/'
                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
@@ -551,6 +563,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:arm
         :avocado: tags=machine:cubieboard
+        :avocado: tags=accel:tcg
         """
         deb_url = ('https://apt.armbian.com/pool/main/l/'
                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
@@ -595,6 +608,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:arm
         :avocado: tags=machine:quanta-gsj
+        :avocado: tags=accel:tcg
         """
         # 25 MiB compressed, 32 MiB uncompressed.
         image_url = (
@@ -642,6 +656,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:arm
         :avocado: tags=machine:quanta-gsj
+        :avocado: tags=accel:tcg
         """
         initrd_url = (
                 'https://github.com/hskinnemoen/openbmc/releases/download/'
@@ -678,6 +693,7 @@ class BootLinuxConsole(LinuxKernelTest):
         """
         :avocado: tags=arch:arm
         :avocado: tags=machine:orangepi-pc
+        :avocado: tags=accel:tcg
         """
         deb_url = ('https://apt.armbian.com/pool/main/l/'
                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
@@ -702,6 +718,7 @@ class BootLinuxConsole(LinuxKernelTest):
     def test_arm_orangepi_initrd(self):
         """
         :avocado: tags=arch:arm
+        :avocado: tags=accel:tcg
         :avocado: tags=machine:orangepi-pc
         """
         deb_url = ('https://apt.armbian.com/pool/main/l/'
@@ -744,6 +761,7 @@ class BootLinuxConsole(LinuxKernelTest):
     def test_arm_orangepi_sd(self):
         """
         :avocado: tags=arch:arm
+        :avocado: tags=accel:tcg
         :avocado: tags=machine:orangepi-pc
         :avocado: tags=device:sd
         """
@@ -1009,6 +1027,74 @@ class BootLinuxConsole(LinuxKernelTest):
         tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
         self.vm.add_args('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.dtb')
         self.do_test_advcal_2018('16', tar_hash, 'winter.zImage')
+
+    def test_arm_ast2400_palmetto_openbmc_v2_9_0(self):
+        """
+        :avocado: tags=arch:arm
+        :avocado: tags=machine:palmetto-bmc
+        """
+
+        image_url = ('https://github.com/openbmc/openbmc/releases/download/2.9.0/'
+                     'obmc-phosphor-image-palmetto.static.mtd')
+        image_hash = ('3e13bbbc28e424865dc42f35ad672b10f2e82cdb11846bb28fa625b48beafd0d')
+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
+                                      algorithm='sha256')
+
+        self.do_test_arm_aspeed(image_path)
+
+    def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
+        """
+        :avocado: tags=arch:arm
+        :avocado: tags=machine:romulus-bmc
+        """
+
+        image_url = ('https://github.com/openbmc/openbmc/releases/download/2.9.0/'
+                     'obmc-phosphor-image-romulus.static.mtd')
+        image_hash = ('820341076803f1955bc31e647a512c79f9add4f5233d0697678bab4604c7bb25')
+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
+                                      algorithm='sha256')
+
+        self.do_test_arm_aspeed(image_path)
+
+    def do_test_arm_aspeed(self, image):
+        self.vm.set_console()
+        self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
+                         '-net', 'nic')
+        self.vm.launch()
+
+        self.wait_for_console_pattern("U-Boot 2016.07")
+        self.wait_for_console_pattern("## Loading kernel from FIT Image at 20080000")
+        self.wait_for_console_pattern("Starting kernel ...")
+        self.wait_for_console_pattern("Booting Linux on physical CPU 0x0")
+        self.wait_for_console_pattern(
+                "aspeed-smc 1e620000.spi: read control register: 203b0641")
+        self.wait_for_console_pattern("ftgmac100 1e660000.ethernet eth0: irq ")
+        self.wait_for_console_pattern("systemd[1]: Set hostname to")
+
+    def test_arm_ast2600_debian(self):
+        """
+        :avocado: tags=arch:arm
+        :avocado: tags=machine:tacoma-bmc
+        """
+        deb_url = ('http://snapshot.debian.org/archive/debian/'
+                   '20210302T203551Z/'
+                   'pool/main/l/linux/'
+                   'linux-image-5.10.0-3-armmp_5.10.13-1_armhf.deb')
+        deb_hash = 'db40d32fe39255d05482bea48d72467b67d6225bb2a2a4d6f618cb8976f1e09e'
+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash,
+                                    algorithm='sha256')
+        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.10.0-3-armmp')
+        dtb_path = self.extract_from_deb(deb_path,
+                '/usr/lib/linux-image-5.10.0-3-armmp/aspeed-bmc-opp-tacoma.dtb')
+
+        self.vm.set_console()
+        self.vm.add_args('-kernel', kernel_path,
+                         '-dtb', dtb_path,
+                         '-net', 'nic')
+        self.vm.launch()
+        self.wait_for_console_pattern("Booting Linux on physical CPU 0xf00")
+        self.wait_for_console_pattern("SMP: Total of 2 processors activated")
+        self.wait_for_console_pattern("No filesystem could mount root")
 
     def test_m68k_mcf5208evb(self):
         """
