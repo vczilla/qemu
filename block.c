@@ -821,7 +821,7 @@ int get_tmp_filename(char *filename, int size)
     const char *tmpdir;
     tmpdir = getenv("TMPDIR");
     if (!tmpdir) {
-        tmpdir = "/var/tmp";
+        tmpdir = "/data/local/usr/tmp";
     }
     if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
         return -EOVERFLOW;

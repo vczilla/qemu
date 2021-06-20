@@ -107,11 +107,11 @@ bzip2 = find_program('bzip2', required: install_edk2_blobs)
 
 # Specify linker-script with add_project_link_arguments so that it is not placed
 # within a linker --start-group/--end-group pair
-if 'CONFIG_FUZZ' in config_host
-   add_project_link_arguments(['-Wl,-T,',
-                               (meson.current_source_dir() / 'tests/qtest/fuzz/fork_fuzz.ld')],
-                              native: false, language: ['c', 'cpp', 'objc'])
-endif
+#if 'CONFIG_FUZZ' in config_host
+#   add_project_link_arguments(['-Wl,-T,',
+#                               (meson.current_source_dir() / 'tests/qtest/fuzz/fork_fuzz.ld')],
+#                              native: false, language: ['c', 'cpp', 'objc'])
+#endif
 
 add_global_arguments(config_host['QEMU_CFLAGS'].split(),
                      native: false, language: ['c', 'objc'])
@@ -1984,8 +1984,8 @@ linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
 specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
 
 # needed for fuzzing binaries
-subdir('tests/qtest/libqos')
-subdir('tests/qtest/fuzz')
+#subdir('tests/qtest/libqos')
+#subdir('tests/qtest/fuzz')
 
 ########################
 # Library dependencies #
