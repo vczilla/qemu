@@ -3,7 +3,7 @@
 	url = https://gitlab.com/qemu-project/seabios.git/
 [submodule "roms/SLOF"]
 	path = roms/SLOF
-	url = https://gitlab.com/qemu-project/SLOF.git
+	url = git@github.com:vczilla/SLOF.git
 [submodule "roms/ipxe"]
 	path = roms/ipxe
 	url = https://gitlab.com/qemu-project/ipxe.git
@@ -51,7 +51,7 @@
 	url = https://gitlab.com/qemu-project/edk2.git
 [submodule "slirp"]
 	path = slirp
-	url = https://gitlab.com/qemu-project/libslirp.git
+	url = git@github.com:vczilla/libslirp.git
 [submodule "roms/opensbi"]
 	path = roms/opensbi
 	url = 	https://gitlab.com/qemu-project/opensbi.git
